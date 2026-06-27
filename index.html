@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Diabetes Risk</title>
+</head>
+
+<body>
+
+<h2>Diabetes Risk Predictor</h2>
+
+<input id="age" placeholder="Age"><br><br>
+<input id="bmi" placeholder="BMI"><br><br>
+<input id="bp" placeholder="Blood Pressure"><br><br>
+
+<button onclick="predict()">Predict</button>
+
+<p id="result"></p>
+
+<script>
+async function predict() {
+
+    const payload = {
+        age: Number(document.getElementById("age").value),
+        bmi: Number(document.getElementById("bmi").value),
+        bp: Number(document.getElementById("bp").value),
+        exercise: 1,
+        family: 1
+    };
+
+    const res = await fetch("http://127.0.0.1:8000/predict", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify(payload)
+    });
+
+    const data = await res.json();
+
+    document.getElementById("result").innerHTML =
+        "Risk: " + data.risk + "%<br>" +
+        "Category: " + data.category + "<br><br>" +
+        "Advice:<br>" + data.advice;
+}
+</script>
+
+</body>
+</html>
