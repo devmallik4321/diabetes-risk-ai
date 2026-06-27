@@ -6,6 +6,10 @@ import requests
 
 app = FastAPI()
 
+@app.get("/")
+def home():
+    return {"status": "working"}
+
 app.add_middleware(
     CORSMiddleware,
     allow_origins=["*"],  # allows frontend (HTML/React/Vercel)
